@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElevateLI — Turn Your LinkedIn From Invisible to Influential</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#0a66c2;
+    --primary-dark:#004e99;
+    --ink:#131b2e;
+    --text:#414752;
+    --text-light:#565e73;
+    --text-muted:#727783;
+    --border:#c1c6d4;
+    --bg:#faf8ff;
+    --bg-alt:#f2f3ff;
+    --bg-soft:#eaedff;
+    --bg-blue-soft:#d6e3ff;
+    --navy:#283044;
+    --green:#005b3d;
+    --mint:#6ffbbe;
+    --red:#ba1a1a;
+    --red-bg:#ffdad6;
+    --red-text:#93000a;
+    --radius-lg:24px;
+    --radius-md:16px;
+    --radius-sm:12px;
+    --shadow-sm:0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md:0 20px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.1);
+    --shadow-lg:0 25px 50px -12px rgba(0,0,0,0.25);
+    --max:1280px;
+    font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+  input{font-family:inherit;}
+  section{scroll-margin-top:84px;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px;}
+  @media(min-width:640px){.wrap{padding:0 32px;}}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-weight:700;font-size:14px;letter-spacing:.14px;border-radius:12px;
+    padding:14px 24px;transition:transform .15s ease,box-shadow .15s ease;white-space:nowrap;}
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--primary);color:#fff;box-shadow:0 10px 15px -3px rgba(10,102,194,.25),0 4px 6px -4px rgba(10,102,194,.25);}
+  .btn-primary:hover{background:var(--primary-dark);}
+  .btn-white{background:#fff;color:var(--ink);box-shadow:0 1px 1px rgba(0,0,0,.05);}
+  .btn-white:hover{background:#f4f4fb;}
+  .btn-green{background:var(--green);color:#fff;box-shadow:0 10px 15px -3px rgba(0,0,0,.1);}
+  .btn-green:hover{background:#004027;}
+  .btn-block{width:100%;}
+  .btn svg{flex-shrink:0;}
+
+  /* ---------- badges / pills ---------- */
+  .pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:6px 14px;
+    font-weight:700;font-size:12px;letter-spacing:.48px;white-space:nowrap;}
+  .eyebrow{font-weight:700;font-size:14px;letter-spacing:.7px;text-transform:uppercase;color:var(--primary-dark);}
+
+  /* ================= HEADER ================= */
+  header{position:sticky;top:0;z-index:50;background:rgba(250,248,255,.9);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    box-shadow:0 1px 8px rgba(0,0,0,.04);}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;height:80px;gap:16px;}
+  .brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .brand-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--green));
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;flex-shrink:0;}
+  .brand-name{font-weight:700;font-size:20px;letter-spacing:-.5px;}
+  .brand-tag{display:flex;align-items:center;gap:6px;background:var(--bg-soft);color:var(--primary-dark);
+    border-radius:999px;padding:2px 10px;font-weight:700;font-size:12px;letter-spacing:.48px;white-space:nowrap;}
+  .dot{width:6px;height:6px;border-radius:999px;background:var(--green);flex-shrink:0;display:inline-block;}
+  nav.main-nav{display:none;gap:4px;align-items:center;}
+  nav.main-nav a{padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px;color:var(--text);}
+  nav.main-nav a:hover{background:var(--bg-soft);color:var(--primary-dark);}
+  .header-actions{display:flex;align-items:center;gap:16px;}
+  .avatar-circle{border-radius:999px;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;
+    font-weight:700;color:var(--primary-dark);flex-shrink:0;}
+  @media(min-width:1024px){nav.main-nav{display:flex;}}
+
+  /* ================= HERO ================= */
+  #hero{position:relative;overflow:hidden;padding:96px 0;}
+  .glow{position:absolute;top:-130px;left:50%;transform:translateX(-50%);width:720px;height:360px;
+    background:linear-gradient(135deg,rgba(214,227,255,.4),rgba(218,226,253,.5));filter:blur(60px);border-radius:999px;pointer-events:none;}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1fr;gap:56px;align-items:center;}
+  @media(min-width:1024px){.hero-grid{grid-template-columns:7fr 5fr;gap:32px;}}
+  .hero-pill{background:var(--bg-blue-soft);box-shadow:0 1px 1px rgba(0,0,0,.05);margin-bottom:24px;}
+  .hero-pill .pill-text{color:var(--primary-dark);}
+  h1.hero-h1{font-weight:800;font-size:clamp(32px,5vw,56px);line-height:1.08;letter-spacing:-1.4px;margin-bottom:24px;}
+  h1.hero-h1 .strike{color:var(--text-light);text-decoration:line-through;}
+  h1.hero-h1 .grad{background:linear-gradient(90deg,var(--primary-dark),var(--primary),var(--green));
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero-sub{color:var(--text);font-weight:500;font-size:18px;line-height:1.56;letter-spacing:-.18px;max-width:576px;margin-bottom:12px;}
+  .hero-sub2{color:var(--text-light);font-size:16px;line-height:1.5;max-width:576px;margin-bottom:24px;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px;}
+  .social-proof{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .avatar-stack{display:flex;}
+  .avatar-stack .avatar-circle{width:32px;height:32px;font-size:11px;border:2px solid var(--bg);margin-left:-8px;}
+  .avatar-stack .avatar-circle:first-child{margin-left:0;}
+  .stars{display:flex;gap:2px;color:#f5a623;}
+  .proof-text{font-size:12px;color:var(--text);}
+  .proof-rating{font-weight:700;font-size:12px;}
+
+  .li-card{background:#fff;border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:24px;position:relative;}
+  .li-banner{height:112px;border-radius:12px;background:linear-gradient(90deg,var(--navy),var(--primary-dark),var(--primary));
+    display:flex;align-items:flex-end;padding:16px;margin-bottom:0;overflow:hidden;}
+  .li-banner span{color:#fff;font-weight:700;font-size:20px;letter-spacing:-.5px;}
+  .li-identity-row{display:flex;align-items:flex-end;justify-content:space-between;margin-top:-40px;padding:0 8px;position:relative;z-index:2;}
+  .li-headshot{width:80px;height:80px;border-radius:16px;background:var(--bg-soft);border:4px solid #fff;
+    box-shadow:var(--shadow-md);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:26px;color:var(--primary-dark);}
+  .li-status{display:flex;align-items:center;gap:6px;background:rgba(0,91,61,.1);color:var(--green);
+    border-radius:999px;padding:4px 12px;font-weight:600;font-size:12px;letter-spacing:.48px;margin-bottom:8px;}
+  .li-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px;padding:0 8px;}
+  .li-name{font-weight:700;font-size:20px;letter-spacing:-.3px;}
+  .li-role-tag{background:var(--bg-soft);color:var(--text-light);font-size:12px;border-radius:4px;padding:2px 8px;}
+  .li-bio{color:var(--text);font-size:14px;padding:4px 8px 0;}
+  .li-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+  .li-metric{background:var(--bg-alt);border-radius:12px;padding:12px;}
+  .li-metric .m-label{color:var(--text-light);font-size:14px;}
+  .li-metric .m-value{font-weight:800;font-size:28px;letter-spacing:-.56px;margin:2px 0;}
+  .li-metric .m-sub{font-weight:700;font-size:12px;letter-spacing:.48px;color:var(--green);}
+  .li-metric.blue .m-sub{color:var(--primary-dark);}
+  .li-engagement{display:flex;align-items:center;justify-content:space-between;background:var(--bg-soft);
+    border-radius:12px;padding:12px;flex-wrap:wrap;gap:8px;}
+  .react-icons{display:flex;}
+  .react-icons span{width:20px;height:20px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:#fff;margin-left:-4px;border:1px solid var(--bg-soft);}
+  .react-icons span:first-child{margin-left:0;}
+  .reacts-count{font-weight:600;font-size:12px;}
+  .engagement-meta{display:flex;gap:12px;font-size:12px;color:var(--text);align-items:center;flex-wrap:wrap;}
+  .engagement-meta b{color:var(--primary-dark);}
+
+  .floating-badge{position:absolute;top:-24px;right:-10px;background:#fff;border-radius:12px;box-shadow:var(--shadow-md);
+    padding:14px;display:flex;align-items:center;gap:12px;}
+  .floating-badge .icon-box{width:40px;height:40px;border-radius:8px;background:var(--mint);display:flex;align-items:center;justify-content:center;}
+  .floating-badge .fb-value{font-weight:700;font-size:20px;letter-spacing:-.3px;}
+  .floating-badge .fb-label{font-weight:600;font-size:12px;letter-spacing:.48px;color:var(--green);}
+  .floating-testi{position:absolute;bottom:-24px;left:-10px;max-width:230px;background:var(--navy);color:#dae2fd;
+    border-radius:12px;padding:16px;box-shadow:var(--shadow-md);}
+  .floating-testi .ft-eyebrow{display:flex;align-items:center;gap:4px;color:var(--mint);font-weight:700;font-size:12px;
+    letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px;}
+  .floating-testi p{font-size:12px;line-height:1.35;}
+  .li-wrap{position:relative;padding-top:24px;padding-bottom:24px;}
+
+  /* ================= ACHIEVEMENT SECTION ================= */
+  #results{background:var(--bg-alt);padding:80px 0;}
+  .section-head{max-width:672px;margin:0 auto 48px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .section-head h2{font-weight:800;font-size:clamp(28px,4vw,40px);letter-spacing:-1px;margin-bottom:14px;}
+  .section-head p{color:var(--text);font-size:16px;}
+  .stats-strip{background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.05);border-radius:16px;width:100%;max-width:672px;
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:24px 48px;padding:24px;}
+  .stat-item{display:flex;align-items:baseline;gap:8px;}
+  .stat-num{font-weight:800;font-size:30px;}
+  .stat-label{font-weight:500;font-size:14px;letter-spacing:.14px;color:var(--text-light);}
+  .stat-dot{width:6px;height:6px;border-radius:999px;background:var(--border);}
+  @media(max-width:480px){.stat-dot{display:none;}}
+
+  .cards-grid{display:grid;grid-template-columns:1fr;gap:24px;margin-bottom:48px;}
+  @media(min-width:860px){.cards-grid{grid-template-columns:repeat(3,1fr);}}
+  .mcard{background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.05);border-radius:16px;padding:32px;display:flex;flex-direction:column;}
+  .mcard .m-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;}
+  .mcard .m-tag{font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px;}
+  .mcard h3{font-weight:700;font-size:20px;letter-spacing:-.3px;margin-bottom:6px;line-height:1.4;}
+  .mcard p{color:var(--text);font-size:14px;line-height:1.43;}
+  .mcard.span2{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  @media(min-width:860px){.mcard.span2{grid-column:2/4;}}
+  .mcard.span2 .m-main{flex:1 1 260px;}
+  .sparkline-box{background:var(--bg-alt);border-radius:12px;padding:20px;text-align:center;min-width:170px;}
+  .sparkline-box .sp-label{color:var(--text-light);font-size:12px;letter-spacing:.6px;text-transform:uppercase;line-height:1.4;}
+  .sparkline-box .sp-value{font-weight:800;font-size:30px;margin:6px 0;}
+  .sparkline-box .sp-sub{color:var(--green);font-weight:700;font-size:12px;}
+
+  .punchline{background:var(--navy);color:#eef0ff;border-radius:16px;box-shadow:var(--shadow-md);
+    display:flex;align-items:center;gap:12px;padding:16px 32px;max-width:fit-content;margin:0 auto;font-weight:700;font-size:20px;
+    letter-spacing:-.5px;}
+
+  /* ================= AUDIT SECTION ================= */
+  #audit{padding:80px 0;}
+  .audit-card{position:relative;overflow:hidden;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);
+    background:linear-gradient(150deg,#eaedff 0%,rgba(218,226,253,.7) 100%);padding:40px;}
+  @media(min-width:640px){.audit-card{padding:64px;}}
+  .audit-blob{position:absolute;top:-96px;right:-96px;width:384px;height:384px;border-radius:999px;
+    background:rgba(168,200,255,.4);filter:blur(50px);pointer-events:none;}
+  .audit-grid{position:relative;display:grid;grid-template-columns:1fr;gap:48px;}
+  @media(min-width:1024px){.audit-grid{grid-template-columns:7fr 5fr;align-items:center;}}
+  .deal-badge{background:var(--red-bg);color:var(--red-text);margin-bottom:24px;}
+  .audit-h2{font-weight:800;font-size:clamp(28px,4vw,40px);line-height:1.2;letter-spacing:-1px;margin-bottom:24px;}
+  .audit-sub{color:var(--text);font-weight:500;font-size:18px;letter-spacing:-.18px;line-height:1.56;margin-bottom:8px;}
+  .checklist{display:flex;flex-direction:column;gap:14px;margin:24px 0;}
+  .check-row{display:flex;gap:12px;align-items:flex-start;}
+  .check-icon{width:24px;height:24px;border-radius:999px;background:var(--primary-dark);display:flex;align-items:center;
+    justify-content:center;flex-shrink:0;margin-top:1px;}
+  .check-row span{font-weight:700;font-size:16px;line-height:1.5;}
+  .check-row span em{font-style:normal;font-weight:500;color:var(--text);}
+  .trust-note{background:rgba(255,255,255,.8);backdrop-filter:blur(2px);border-radius:12px;padding:16px;max-width:576px;}
+  .trust-note p{font-style:italic;font-size:14px;color:var(--text);}
+
+  .price-card{background:#fff;border-radius:16px;box-shadow:var(--shadow-md);padding:32px;display:flex;flex-direction:column;
+    align-items:center;gap:24px;text-align:center;}
+  .price-eyebrow{font-weight:700;font-size:14px;letter-spacing:.7px;text-transform:uppercase;color:var(--text-light);}
+  .price-row{display:flex;align-items:baseline;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .price-row .price-now{font-weight:800;font-size:60px;}
+  .price-strike-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:4px;}
+  .price-strike{font-weight:700;font-size:18px;color:var(--text-muted);text-decoration:line-through;}
+  .price-off{background:var(--mint);color:#002113;font-weight:700;font-size:12px;letter-spacing:.48px;border-radius:4px;padding:2px 8px;}
+  .price-desc{color:var(--text);font-size:14px;}
+  .urgency-text{display:flex;align-items:center;gap:6px;color:var(--red);font-weight:700;font-size:12px;}
+  .trust-badges-row{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;background:var(--bg-alt);
+    border-radius:12px;padding:12px;width:100%;}
+  .trust-badges-row span{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text-light);}
+
+  /* ================= LEAD FORM SECTION ================= */
+  #lead-form{background:#fff;padding:80px 0;}
+  .lf-grid{display:grid;grid-template-columns:1fr;gap:48px;}
+  @media(min-width:1024px){.lf-grid{grid-template-columns:1fr 1fr;align-items:center;}}
+  .lf-badge{background:var(--bg-blue-soft);color:var(--primary-dark);margin-bottom:24px;}
+  .lf-h2{font-weight:800;font-size:clamp(28px,4vw,40px);letter-spacing:-1px;margin-bottom:24px;line-height:1.2;}
+  .lf-sub{color:var(--text);font-weight:500;font-size:18px;letter-spacing:-.18px;margin-bottom:24px;}
+  .value-points{display:flex;flex-direction:column;gap:16px;}
+  .value-point{display:flex;gap:16px;background:var(--bg-alt);border-radius:12px;padding:16px;}
+  .value-point svg{flex-shrink:0;margin-top:2px;}
+  .value-point h4{font-weight:700;font-size:20px;letter-spacing:-.3px;margin-bottom:2px;}
+  .value-point p{color:var(--text);font-size:14px;}
+
+  .form-card{background:var(--bg-soft);border-radius:24px;box-shadow:var(--shadow-md);padding:32px;}
+  @media(min-width:640px){.form-card{padding:40px;}}
+  .form-card h3{font-weight:700;font-size:20px;letter-spacing:-.3px;margin-bottom:4px;}
+  .form-card>p{color:var(--text);font-size:14px;margin-bottom:24px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-weight:600;font-size:14px;letter-spacing:.14px;margin-bottom:6px;}
+  .input-wrap{position:relative;}
+  .input-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;}
+  .input-wrap input{width:100%;background:#fff;border:1px solid transparent;border-radius:12px;box-shadow:var(--shadow-sm);
+    padding:14px 16px 14px 40px;font-size:16px;color:var(--ink);outline:none;transition:border-color .15s;}
+  .input-wrap input::placeholder{color:var(--border);}
+  .input-wrap input:focus{border-color:var(--primary);}
+  .trust-line{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:var(--text);font-size:14px;}
+  .form-status{margin-top:16px;border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;text-align:center;display:none;}
+  .form-status--success{display:block;background:rgba(0,91,61,.1);color:var(--green);}
+  .form-status--error{display:block;background:var(--red-bg);color:var(--red-text);}
+
+  /* ================= REVIEWS SECTION ================= */
+  #reviews{background:var(--bg);padding:80px 0;}
+  .reviews-grid{display:grid;grid-template-columns:1fr;gap:32px;}
+  @media(min-width:1024px){.reviews-grid{grid-template-columns:7fr 5fr;align-items:start;}}
+  .featured-card{background:#fff;border-radius:24px;box-shadow:var(--shadow-md);padding:32px;position:relative;overflow:hidden;
+    display:flex;flex-direction:column;gap:24px;}
+  @media(min-width:640px){.featured-card{padding:40px;}}
+  .fc-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  .verified-badge{display:flex;align-items:center;gap:4px;background:var(--mint);color:#002113;font-weight:700;font-size:12px;
+    letter-spacing:.48px;border-radius:999px;padding:4px 12px;}
+  .fc-quote{font-weight:700;font-size:clamp(20px,2.4vw,28px);letter-spacing:-.56px;line-height:1.38;}
+  .fc-body{color:var(--text);font-size:16px;line-height:1.5;}
+  .fc-author{display:flex;align-items:center;gap:16px;background:var(--bg-alt);border-radius:16px;padding:16px;margin-top:8px;}
+  .fc-author .avatar-circle{width:56px;height:56px;font-size:18px;}
+  .fc-author-name{display:flex;align-items:center;gap:6px;font-weight:700;font-size:18px;letter-spacing:-.27px;}
+  .fc-author-role{color:var(--text-light);font-weight:500;font-size:14px;}
+  .fc-author-stat{color:var(--green);font-weight:700;font-size:12px;}
+
+  .compact-cards{display:flex;flex-direction:column;gap:24px;}
+  .compact-card{background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.05);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px;}
+  .compact-card .stars{margin-bottom:0;}
+  .compact-card p.quote{font-weight:600;font-size:18px;letter-spacing:-.18px;line-height:1.6;}
+  .compact-author{display:flex;align-items:center;gap:12px;}
+  .compact-author .avatar-circle{width:40px;height:40px;font-size:13px;}
+  .compact-author-name{font-weight:700;font-size:14px;letter-spacing:.14px;}
+  .compact-author-role{font-size:12px;color:var(--text);}
+
+  /* ================= FINAL URGENCY STRIP ================= */
+  #cta-strip{padding:64px 0;}
+  .strip-card{position:relative;overflow:hidden;border-radius:24px;box-shadow:var(--shadow-lg);
+    background:linear-gradient(90deg,var(--navy),var(--primary-dark),var(--navy));
+    padding:40px;display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between;}
+  @media(min-width:640px){.strip-card{padding:48px;}}
+  .strip-copy{max-width:576px;}
+  .strip-badge{background:var(--mint);color:#002113;margin-bottom:8px;}
+  .strip-copy h3{color:#fff;font-weight:800;font-size:clamp(26px,4vw,40px);letter-spacing:-1px;line-height:1.2;margin:8px 0;}
+  .strip-copy p{color:var(--bg-blue-soft);font-size:16px;line-height:1.5;}
+  .strip-btns{display:flex;gap:16px;flex-wrap:wrap;}
+
+  /* ================= FOOTER ================= */
+  footer{background:var(--bg-alt);padding:40px 0;}
+  .footer-grid{display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:40px;}
+  @media(min-width:860px){.footer-grid{grid-template-columns:2fr 1fr 1fr;}}
+  .footer-brand-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+  .footer-tag{background:var(--bg-soft);color:var(--text-light);font-weight:700;font-size:12px;letter-spacing:.48px;
+    border-radius:4px;padding:2px 8px;}
+  .footer-desc{color:var(--text);font-size:14px;max-width:460px;margin-bottom:16px;line-height:1.43;}
+  .footer-trust{display:flex;gap:24px;flex-wrap:wrap;}
+  .footer-trust span{display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px;letter-spacing:.48px;color:var(--text);}
+  .footer-col h4{font-weight:700;font-size:14px;letter-spacing:.7px;text-transform:uppercase;margin-bottom:16px;}
+  .footer-col ul{display:flex;flex-direction:column;gap:10px;}
+  .footer-col a{color:var(--text);font-size:14px;}
+  .footer-col a:hover{color:var(--primary);}
+  .footer-bottom{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;
+    padding-top:32px;border-top:1px solid rgba(19,27,46,.08);}
+  .footer-bottom p{color:var(--text);font-size:14px;}
+  .footer-meta{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-weight:700;font-size:12px;letter-spacing:.48px;}
+  .footer-meta .encryption{display:flex;align-items:center;gap:4px;color:var(--green);}
+  .footer-meta .sep{color:var(--text-light);}
+  .footer-meta .priv{color:var(--text);}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap header-inner">
+    <div class="brand">
+      <div class="brand-mark">EL</div>
+      <span class="brand-name">ElevateLI</span>
+      <span class="brand-tag"><span class="dot"></span>Q3 Cohort Open</span>
+    </div>
+    <nav class="main-nav">
+      <a href="#results">Results</a>
+      <a href="#audit">Audit ₹1</a>
+      <a href="#reviews">Client Stories</a>
+      <a href="#lead-form">Growth Plan</a>
+    </nav>
+    <div class="header-actions">
+      <a href="https://payments.cashfree.com/forms/getaudit" target="_blank" rel="noopener" class="btn btn-primary">Get ₹1 Audit</a>
+      <div class="avatar-circle" style="width:32px;height:32px;font-size:12px;">VR</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section id="hero">
+    <div class="glow"></div>
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="pill hero-pill"><span class="pill-text">✦ 0 to Hero Personal Branding Framework</span><span class="dot"></span></span>
+          <h1 class="hero-h1">Turn Your LinkedIn From<br><span class="strike">Invisible</span> to <span class="grad">Influential</span></h1>
+          <p class="hero-sub">We don't just "optimize profiles." We build your personal brand from scratch — with strategy, content, and consistency that actually gets you seen.</p>
+          <p class="hero-sub2">From 0 to hero on LinkedIn — without confusion, guesswork, or wasting months figuring it out alone.</p>
+          <div class="hero-ctas">
+            <a href="#audit" class="btn btn-primary">Get Your Profile Audit
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#lead-form" class="btn btn-white">Start Growing Today</a>
+          </div>
+          <div class="social-proof">
+            <div class="avatar-stack">
+              <div class="avatar-circle">AK</div>
+              <div class="avatar-circle">RS</div>
+              <div class="avatar-circle">MP</div>
+            </div>
+            <div>
+              <div class="stars" aria-hidden="true">
+                ★★★★★ <span class="proof-rating" style="color:var(--ink);margin-left:4px;">5.0</span>
+              </div>
+              <p class="proof-text">Trusted by 100+ C-Suite &amp; Tech Founders</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="li-wrap">
+          <div class="li-card">
+            <div class="li-banner"><span>Enterprise Scale • AI Strategy</span></div>
+            <div class="li-identity-row">
+              <div class="li-headshot">VR</div>
+              <div class="li-status"><span class="dot" style="background:var(--green);"></span>Profile Optimized</div>
+            </div>
+            <div class="li-name-row">
+              <span class="li-name">Vikramaditya Roy</span>
+              <span class="li-role-tag">Founder &amp; CEO</span>
+            </div>
+            <p class="li-bio">Scaling B2B SaaS from $1M to $25M ARR | Keynote Speaker | Angel Investor</p>
+            <div class="li-metrics">
+              <div class="li-metric">
+                <div class="m-label">Past 90 Days</div>
+                <div class="m-value">180K+</div>
+                <div class="m-sub">↗ Organic Impressions</div>
+              </div>
+              <div class="li-metric blue">
+                <div class="m-label">Search Visibility</div>
+                <div class="m-value">32.4K</div>
+                <div class="m-sub">👁 Profile Views</div>
+              </div>
+            </div>
+            <div class="li-engagement">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div class="react-icons">
+                  <span style="background:var(--primary);">👍</span>
+                  <span style="background:var(--green);">💡</span>
+                  <span style="background:var(--red);">❤️</span>
+                </div>
+                <span class="reacts-count">1,492 Reactions</span>
+              </div>
+              <div class="engagement-meta">
+                <span>318 comments</span><span>•</span><b>94 Inbound DMs</b>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-badge">
+            <div class="icon-box">
+              <svg width="18" height="12" viewBox="0 0 24 16" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,15 9,7 14,12 23,1"/></svg>
+            </div>
+            <div>
+              <div class="fb-value">+418%</div>
+              <div class="fb-label">Inbound Leads</div>
+            </div>
+          </div>
+
+          <div class="floating-testi">
+            <div class="ft-eyebrow">★ EXECUTIVE GHOSTWRITING</div>
+            <p>"Closed two $50K enterprise consulting retainers through DMs."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ACHIEVEMENT SECTION ============ -->
+  <section id="results">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">MEASURABLE AUTHORITY</span>
+        <h2>Real Growth. Real Results.</h2>
+        <div class="stats-strip">
+          <div class="stat-item"><span class="stat-num" style="color:var(--primary-dark);">100+</span><span class="stat-label">Brands Built</span></div>
+          <span class="stat-dot"></span>
+          <div class="stat-item"><span class="stat-num" style="color:var(--green);">4.8M+</span><span class="stat-label">Impressions</span></div>
+          <span class="stat-dot"></span>
+          <div class="stat-item"><span class="stat-num">350+</span><span class="stat-label">Inbound Leads</span></div>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="mcard">
+          <div class="m-icon" style="background:#d6e3ff;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>
+          </div>
+          <span class="m-tag" style="color:var(--primary-dark);">MILESTONE 01</span>
+          <h3>Helped 100+ professionals build authority on LinkedIn</h3>
+          <p>From enterprise tech founders to venture capital partners, we structure high-conviction personal brand positioning that commands executive respect.</p>
+        </div>
+        <div class="mcard">
+          <div class="m-icon" style="background:var(--mint);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/></svg>
+          </div>
+          <span class="m-tag" style="color:var(--green);">MILESTONE 02</span>
+          <h3>Generated consistent inbound leads through content</h3>
+          <p>Turn casual scrollers into qualified commercial conversations with high-intent editorial narratives that invite immediate direct messages.</p>
+        </div>
+        <div class="mcard">
+          <div class="m-icon" style="background:var(--bg-blue-soft);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+          </div>
+          <span class="m-tag" style="color:var(--text-light);">MILESTONE 03</span>
+          <h3>Built personal brands from absolute zero</h3>
+          <p>No existing network? Zero prior posts? Our 0-to-Hero roadmap creates category-defining intellectual property even starting with an empty profile.</p>
+        </div>
+        <div class="mcard">
+          <div class="m-icon" style="background:#dae2fd;">
+            <svg width="18" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </div>
+          <span class="m-tag" style="color:var(--primary-dark);">MILESTONE 04</span>
+          <h3>Content that reaches thousands organically</h3>
+          <p>Algorithmic mastery combined with authentic thought leadership. No clickbait, no engagement pods — pure organic distribution at enterprise scale.</p>
+        </div>
+        <div class="mcard span2">
+          <div class="m-main">
+            <div class="m-icon" style="background:var(--mint);margin-bottom:16px;">
+              <svg width="24" height="23" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </div>
+            <span class="m-tag" style="color:var(--green);">MILESTONE 05</span>
+            <h3>Profiles that convert views into opportunities</h3>
+            <p>We turn your profile from a static resume into an executive landing page that sells your vision, your advisory capability, and your company 24/7.</p>
+          </div>
+          <div class="sparkline-box">
+            <div class="sp-label">OPPORTUNITY<br>CONVERSION</div>
+            <div class="sp-value">8.4x</div>
+            <div class="sp-sub">Industry Average Benchmark</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="punchline">
+        <svg width="22" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>This isn't luck. It's a system that works.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AUDIT / RUPEE 1 SECTION ============ -->
+  <section id="audit">
+    <div class="wrap">
+      <div class="audit-card">
+        <div class="audit-blob"></div>
+        <div class="audit-grid">
+          <div>
+            <span class="pill deal-badge">⚡ Limited Availability Deal</span>
+            <h2 class="audit-h2">Get a Complete LinkedIn Audit for Just Rupee 1</h2>
+            <p class="audit-sub">Not a sales call. A real breakdown of what's working, what's not, and what to fix.</p>
+            <div class="checklist">
+              <div class="check-row">
+                <div class="check-icon"><svg width="11" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span><strong>Profile review</strong> <em>(headline, banner, positioning)</em></span>
+              </div>
+              <div class="check-row">
+                <div class="check-icon"><svg width="11" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span>Content gap analysis</span>
+              </div>
+              <div class="check-row">
+                <div class="check-icon"><svg width="11" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span>Personal brand direction</span>
+              </div>
+              <div class="check-row">
+                <div class="check-icon"><svg width="11" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span>Clear action steps to improve visibility</span>
+              </div>
+            </div>
+            <div class="trust-note">
+              <p>"Why Rupee 1? Because once you see the value, you'll know what to do next."</p>
+            </div>
+          </div>
+
+          <div class="price-card">
+            <span class="price-eyebrow">INTRODUCTORY AUDIT SESSION</span>
+            <div class="price-row">
+              <span class="price-now">₹1</span>
+              <div class="price-strike-wrap">
+                <span class="price-strike">₹4,999</span>
+                <span class="price-off">99% OFF INTRO</span>
+              </div>
+            </div>
+            <p class="price-desc">30-minute high-density video audit + customized Notion action roadmap delivered directly to your inbox.</p>
+            <a href="https://payments.cashfree.com/forms/getaudit" target="_blank" rel="noopener" class="btn btn-primary btn-block">
+              Book My Audit Now
+              <svg width="12" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </a>
+            <div class="urgency-text">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Only 4 spots remaining for this week
+            </div>
+            <div class="trust-badges-row">
+              <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 10 11 15 8 12"/></svg>100% Actionable</span>
+              <span><svg width="10" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Zero Pitching</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEAD FORM SECTION ============ -->
+  <section id="lead-form">
+    <div class="wrap">
+      <div class="lf-grid">
+        <div>
+          <span class="pill lf-badge">Direct Advisory Cohort</span>
+          <h2 class="lf-h2">Let's Build Your LinkedIn Presence Together</h2>
+          <p class="lf-sub">Tell us a bit about you — and we'll show you exactly how to grow.</p>
+          <div class="value-points">
+            <div class="value-point">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8 14 12.7l-3-3L7 14"/></svg>
+              <div>
+                <h4>Comprehensive Authority Diagnostic</h4>
+                <p>We analyze your niche competitors, profile structure, and content resonance metrics.</p>
+              </div>
+            </div>
+            <div class="value-point">
+              <svg width="19" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              <div>
+                <h4>Tone &amp; Intellectual Property Blueprint</h4>
+                <p>Extract your natural executive voice and map high-engagement content pillars.</p>
+              </div>
+            </div>
+            <div class="value-point">
+              <svg width="7" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              <div>
+                <h4>Inbound Pipeline Architecture</h4>
+                <p>Convert views to high-ticket consulting calls and commercial inquiries effortlessly.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h3>Request Your Growth Plan</h3>
+          <p>Claim your bespoke roadmap and introductory ₹1 profile assessment.</p>
+          <form id="lead-form-el" novalidate>
+            <div class="field">
+              <label for="field-name">Full Name</label>
+              <div class="input-wrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input type="text" id="field-name" name="name" placeholder="e.g. Rahul Sharma" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="field-email">Work Email</label>
+              <div class="input-wrap">
+                <svg width="16" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+                <input type="email" id="field-email" name="email" placeholder="e.g. rahul@company.com" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="field-phone">Phone Number</label>
+              <div class="input-wrap">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <input type="tel" id="field-phone" name="phone" placeholder="+91 98765 43210" required>
+              </div>
+            </div>
+            <button type="submit" id="form-submit-btn" class="btn btn-primary btn-block">
+              <span id="submit-btn-text">Get My Growth Plan</span>
+              <svg width="12" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </button>
+            <div class="trust-line">
+              <svg width="9" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              No spam. No fluff. Just actionable clarity.
+            </div>
+            <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REVIEWS SECTION ============ -->
+  <section id="reviews">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">EXECUTIVE TESTIMONIALS</span>
+        <h2>What Our Clients Say</h2>
+        <p>Real founders, creators, and executives who turned their silent profiles into inbound client engines.</p>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="featured-card">
+          <div class="fc-top">
+            <div class="stars">★★★★★</div>
+            <span class="verified-badge">✓ Verified Executive Client</span>
+          </div>
+          <p class="fc-quote">"I had zero presence before this. Within weeks, I started getting inbound messages and profile views."</p>
+          <p class="fc-body">The framework completely transformed how prospective enterprise buyers perceive our company. ElevateLI turned silent expertise into undeniable commercial leverage.</p>
+          <div class="fc-author">
+            <div class="avatar-circle">AS</div>
+            <div>
+              <div class="fc-author-name">Ananya Sen <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--primary)" stroke="#fff" stroke-width="1"><path d="M12 2 9.5 4.5 6 4l-.5 3.5L2 9l2 3-2 3 3.5 1.5L6 20l3.5-.5L12 22l2.5-2.5L18 20l.5-3.5L22 15l-2-3 2-3-3.5-1.5L18 4l-3.5.5z"/></svg></div>
+              <div class="fc-author-role">Tech Founder &amp; Managing Director</div>
+              <div class="fc-author-stat">+18.5k New Executive Followers</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="compact-cards">
+          <div class="compact-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote">"Went from 200 views per post to consistent 15k+ reach and 3 high-ticket advisory clients in 60 days."</p>
+            <div class="compact-author">
+              <div class="avatar-circle">KM</div>
+              <div>
+                <div class="compact-author-name">Karthik Menon</div>
+                <div class="compact-author-role">SaaS Founder • Series A Funded</div>
+              </div>
+            </div>
+          </div>
+          <div class="compact-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote">"The content strategy completely eliminated the dread of posting. Best ROI on personal branding."</p>
+            <div class="compact-author">
+              <div class="avatar-circle">PN</div>
+              <div>
+                <div class="compact-author-name">Pooja Nambiar</div>
+                <div class="compact-author-role">Managing Partner • Fintech Ventures</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL URGENCY STRIP ============ -->
+  <section id="cta-strip">
+    <div class="wrap">
+      <div class="strip-card">
+        <div class="strip-copy">
+          <span class="pill strip-badge"><span class="dot" style="background:var(--green);"></span>Q3 Cohort Now Reviewing Profiles</span>
+          <h3>Stop being LinkedIn's best-kept secret.</h3>
+          <p>Claim your comprehensive profile audit for ₹1 or unlock a custom multi-channel growth architecture today.</p>
+        </div>
+        <div class="strip-btns">
+          <a href="https://payments.cashfree.com/forms/getaudit" target="_blank" rel="noopener" class="btn btn-white">Claim ₹1 Audit</a>
+          <a href="#lead-form" class="btn btn-green">Get Custom Growth Plan</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-row">
+          <span class="brand-name">ElevateLI</span>
+          <span class="footer-tag">Executive Authority Advisory</span>
+        </div>
+        <p class="footer-desc">Architecting high-conviction LinkedIn personal brand equity, executive distribution, and enterprise inbound pipeline for Founders and C-Suite leaders.</p>
+        <div class="footer-trust">
+          <span><svg width="11" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>NDA &amp; Strict Discretion Guaranteed</span>
+          <span><svg width="13" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>180+ Founders Scaled</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>NAVIGATION</h4>
+        <ul>
+          <li><a href="#results">Executive Results</a></li>
+          <li><a href="#audit">The ₹1 Profile Audit</a></li>
+          <li><a href="#reviews">Founder Case Studies</a></li>
+          <li><a href="#lead-form">Category Growth Framework</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>TRUST &amp; COMPLIANCE</h4>
+        <ul>
+          <li><a href="#">Confidentiality Charter</a></li>
+          <li><a href="#">Executive Data Privacy</a></li>
+          <li><a href="#">Terms of Advisory</a></li>
+          <li><a href="#">Ghostwriting Security SLA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 ElevateLI Advisory Group. All intellectual property reserved.</p>
+      <div class="footer-meta">
+        <span class="encryption"><span class="dot" style="background:var(--green);"></span>Enterprise Encryption Active</span>
+        <span class="sep">•</span>
+        <span class="priv">Protected by Executive Privilege &amp; Bilateral NDAs</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // Deployed Google Apps Script Web App URL
+  var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz24rK3HEhtjxhLmGn6e_RxZolsrepoHN8YHMK7HZjseQk0oysnuJTHBSOh1zyMs7fr/exec";
+
+  var form = document.getElementById("lead-form-el");
+  var statusEl = document.getElementById("form-status");
+  var submitBtn = document.getElementById("form-submit-btn");
+  var submitBtnText = document.getElementById("submit-btn-text");
+  var originalBtnLabel = submitBtnText.textContent;
+
+  function showSuccess() {
+    statusEl.textContent = "Thanks! We've received your details — check your inbox shortly.";
+    statusEl.className = "form-status form-status--success";
+    form.reset();
+    submitBtn.disabled = false;
+    submitBtnText.textContent = originalBtnLabel;
+  }
+
+  function showError() {
+    statusEl.textContent = "Something went wrong submitting the form. Please try again in a moment.";
+    statusEl.className = "form-status form-status--error";
+    submitBtn.disabled = false;
+    submitBtnText.textContent = originalBtnLabel;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var name = document.getElementById("field-name").value.trim();
+    var email = document.getElementById("field-email").value.trim();
+    var phone = document.getElementById("field-phone").value.trim();
+
+    if (!name || !email || !phone) {
+      statusEl.textContent = "Please fill in your name, email, and phone number.";
+      statusEl.className = "form-status form-status--error";
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtnText.textContent = "Sending...";
+    statusEl.className = "form-status";
+    statusEl.textContent = "";
+
+    var url = SCRIPT_URL + "?" + new URLSearchParams({ name: name, email: email, phone: phone });
+
+    fetch(url, { method: "GET", mode: "no-cors" })
+      .then(function () { showSuccess(); })
+      .catch(function () { showError(); });
+  });
+})();
+</script>
+
+</body>
+</html>
